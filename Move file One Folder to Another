@@ -1,0 +1,35 @@
+import os
+import shutil
+
+def organize_files(directory):
+    """
+    Organizes files in the specified directory into subdirectories based on their types.
+    
+    Parameters:
+        directory (str): The directory path to organize files in.
+    """
+    # Create directories for CSV Files, Image Files, and Text Files
+    csv_dir = os.path.join(directory, 'CSV Files')
+    image_dir = os.path.join(directory, 'Image Files')
+    text_dir = os.path.join(directory, 'Text Files')
+
+    # Create directories if they don't exist
+    os.makedirs(csv_dir, exist_ok=True)
+    os.makedirs(image_dir, exist_ok=True)
+    os.makedirs(text_dir, exist_ok=True)
+
+    # Move files to their respective directories
+    for filename in os.listdir(directory):
+        if filename.endswith('.csv'):
+            shutil.move(os.path.join(directory, filename), os.path.join(csv_dir, filename))
+        elif filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+            shutil.move(os.path.join(directory, filename), os.path.join(image_dir, filename))
+        elif filename.endswith('.txt'):
+            shutil.move(os.path.join(directory, filename), os.path.join(text_dir, filename))
+
+    print("Files moved successfully.")
+
+if __name__ == "__main__":
+    # Directory path to organize files in
+    directory_path = r'C:\Users\Sakib\Pictures'
+    organize_files(directory_path)
