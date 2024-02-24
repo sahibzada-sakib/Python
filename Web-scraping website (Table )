@@ -1,0 +1,27 @@
+import requests as rq
+from bs4 import BeautifulSoup as bs
+import pandas as pd
+
+url='https://fastestlaps.com/tracks/adm-miachkovo'
+webpage=rq.get(url)
+soup=bs(webpage.content,'html')
+Table=soup.find('table')
+
+
+headers=[]
+for x in Table.find_all('tr'):
+    for y in x.find_all('th'):
+        headers.append(y.text)
+headers
+
+elements=[]
+for x in Table.find_all('tr')[1:]:
+    td_tags=x.find_all('td')
+    td_value=[y.text for y in td_tags]
+    elements.append(td_value)
+
+elements
+
+data = {'headers': headers, 'elements': elements}
+df = pd.DataFrame(data['elements'], columns=data['headers'])
+df
